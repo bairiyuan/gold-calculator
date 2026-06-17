@@ -23,7 +23,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
     z-index: -1;
 }
 
@@ -57,11 +57,10 @@ header h1 {
 }
 
 .calculator-section {
-    background: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(5px);
 }
 
 .tabs {
@@ -149,11 +148,11 @@ header h1 {
 }
 
 .input-section {
-    background: rgba(250, 249, 245, 0.8);
+    background: rgba(250, 249, 245, 0.6);
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 20px;
-    border: 1px solid rgba(240, 230, 210, 0.8);
+    border: 1px solid rgba(240, 230, 210, 0.6);
 }
 
 .input-section h3 {
@@ -224,9 +223,9 @@ header h1 {
 .result-box {
     margin-top: 30px;
     padding: 25px;
-    background: linear-gradient(135deg, rgba(255, 249, 230, 0.9) 0%, rgba(245, 240, 229, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(255, 249, 230, 0.7) 0%, rgba(245, 240, 229, 0.7) 100%);
     border-radius: 15px;
-    border: 2px solid rgba(240, 230, 210, 0.9);
+    border: 2px solid rgba(240, 230, 210, 0.7);
 }
 
 .result-box h3 {
