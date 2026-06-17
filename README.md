@@ -1,5 +1,7 @@
 # 黄金持仓均价计算器
 
+🌐 在线访问：https://bairiyuan.github.io/gold-calculator/
+
 一个简单易用的黄金持仓均价计算工具，让你一目了然算成本！
 
 ## ✨ 功能特点
