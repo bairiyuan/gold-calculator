@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄金持仓均价计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>黄金持仓均价计算器</h1>
+        </header>
+
+        <main class="main-content">
+            <section class="calculator-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="fund-deposit">积存金</button>
+                    <button class="tab-btn" data-tab="gold-fund">黄金基金</button>
+                    <button class="tab-btn" data-tab="help">使用说明</button>
+                </div>
+
+                <div class="tab-content active" id="fund-deposit">
+                    <div class="sub-tabs">
+                        <button class="sub-tab-btn active" data-sub-tab="weight-absolute">按克数（绝对值）</button>
+                        <button class="sub-tab-btn" data-sub-tab="percentage">按仓位百分比（相对权重）</button>
+                    </div>
+
+                    <div class="sub-tab-content active" id="weight-absolute">
+                        <div class="mode-tabs">
+                            <button class="mode-tab-btn active" data-mode="amount">按金额定投</button>
+                            <button class="mode-tab-btn" data-mode="weight">按重量定投</button>
+                        </div>
+
+                        <div class="mode-content active" id="mode-amount">
+                            <div class="input-group">
+                                <label>现有持仓重量 (克)</label>
+                                <input type="number" id="existing-weight-amount" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>现有均价 (元/克)</label>
+                                <input type="number" id="existing-price-amount" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>本次买入金额 (元)</label>
+                                <input type="number" id="new-amount" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>本次买入价 (元/克)</label>
+                                <input type="number" id="new-price-amount" step="0.01" placeholder="请输入">
+                            </div>
+                            <button class="calculate-btn" onclick="calculateByAmount()">计算</button>
+                        </div>
+
+                        <div class="mode-content" id="mode-weight">
+                            <div class="input-group">
+                                <label>现有持仓重量 (克)</label>
+                                <input type="number" id="existing-weight-weight" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>现有均价 (元/克)</label>
+                                <input type="number" id="existing-price-weight" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>本次买入重量 (克)</label>
+                                <input type="number" id="new-weight" step="0.01" placeholder="请输入">
+                            </div>
+                            <div class="input-group">
+                                <label>本次买入价 (元/克)</label>
+                                <input type="number" id="new-price-weight" step="0.01" placeholder="请输入">
+                            </div>
+                            <button class="calculate-btn" onclick="calculateByWeight()">计算</button>
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" id="percentage">
+                        <div class="input-group">
+                            <label>现有均价 (元/克)</label>
+                            <input type="number" id="existing-price-percent" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次新增权重 (%)</label>
+                            <input type="number" id="new-percent" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次买入价 (元/克)</label>
+                            <input type="number" id="new-price-percent" step="0.01" placeholder="请输入">
+                        </div>
+                        <button class="calculate-btn" onclick="calculateByPercentage()">计算</button>
+                    </div>
+
+                    <div class="result-box" id="result-deposit">
+                        <h3>计算结果</h3>
+                        <div class="result-item">新总重量：<span id="new-total-weight">-</span> 克</div>
+                        <div class="result-item">新总成本：<span id="new-total-cost">-</span> 元</div>
+                        <div class="result-item">新均价：<span id="new-avg-price" class="highlight">-</span> 元/克</div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="gold-fund">
+                    <div class="mode-tabs">
+                        <button class="mode-tab-btn active" data-fund-mode="amount">按金额定投</button>
+                        <button class="mode-tab-btn" data-fund-mode="weight">按份额定投</button>
+                    </div>
+
+                    <div class="mode-content active" id="fund-mode-amount">
+                        <div class="input-group">
+                            <label>现有持仓份额</label>
+                            <input type="number" id="fund-existing-weight-amount" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>现有均价 (元/份)</label>
+                            <input type="number" id="fund-existing-price-amount" step="0.0001" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次买入金额 (元)</label>
+                            <input type="number" id="fund-new-amount" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次买入价 (元/份)</label>
+                            <input type="number" id="fund-new-price-amount" step="0.0001" placeholder="请输入">
+                        </div>
+                        <button class="calculate-btn" onclick="calculateFundByAmount()">计算</button>
+                    </div>
+
+                    <div class="mode-content" id="fund-mode-weight">
+                        <div class="input-group">
+                            <label>现有持仓份额</label>
+                            <input type="number" id="fund-existing-weight-weight" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>现有均价 (元/份)</label>
+                            <input type="number" id="fund-existing-price-weight" step="0.0001" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次买入份额</label>
+                            <input type="number" id="fund-new-weight" step="0.01" placeholder="请输入">
+                        </div>
+                        <div class="input-group">
+                            <label>本次买入价 (元/份)</label>
+                            <input type="number" id="fund-new-price-weight" step="0.0001" placeholder="请输入">
+                        </div>
+                        <button class="calculate-btn" onclick="calculateFundByWeight()">计算</button>
+                    </div>
+
+                    <div class="result-box" id="result-fund">
+                        <h3>计算结果</h3>
+                        <div class="result-item">新总份额：<span id="fund-new-total-weight">-</span></div>
+                        <div class="result-item">新总成本：<span id="fund-new-total-cost">-</span> 元</div>
+                        <div class="result-item">新均价：<span id="fund-new-avg-price" class="highlight">-</span> 元/份</div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="help">
+                    <h2 class="help-title">📖 详细使用说明</h2>
+                    
+                    <div class="help-section">
+                        <h3>🧮 什么是持仓均价？</h3>
+                        <p>持仓均价就是你买入所有黄金（或基金）的平均价格。比如你分两次买了同一样东西，第一次100元买了1个，第二次200元买了1个，那么均价就是(100+200)÷(1+1)=150元。</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>💰 积存金 - 按金额定投（最常用！）</h3>
+                        <p><strong>适用场景：</strong>你知道自己现在有多少克黄金，也知道现在的均价，这次准备花一笔钱买新的黄金。</p>
+                        <div class="help-steps">
+                            <p><strong>第一步：</strong>填【现有持仓重量（克）】→ 比如你现在有10克</p>
+                            <p><strong>第二步：</strong>填【现有均价（元/克）】→ 比如你现在10克的均价是700元</p>
+                            <p><strong>第三步：</strong>填【本次买入金额（元）】→ 比如你这次准备花7000元</p>
+                            <p><strong>第四步：</strong>填【本次买入价（元/克）】→ 比如现在金价是720元/克</p>
+                            <p><strong>第五步：</strong>点击【计算】按钮 ✨</p>
+                        </div>
+                        <p><strong>结果说明：</strong></p>
+                        <ul>
+                            <li>新总重量：10克 + (7000÷720) ≈ 19.72克</li>
+                            <li>新总成本：10×700 + 7000 = 14000元</li>
+                            <li>新均价：14000 ÷ 19.72 ≈ 710元/克</li>
+                        </ul>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>⚖️ 积存金 - 按重量定投</h3>
+                        <p><strong>适用场景：</strong>你知道要买多少克黄金，而不是准备花多少钱。</p>
+                        <div class="help-steps">
+                            <p><strong>第一步：</strong>填【现有持仓重量（克）】→ 比如10克</p>
+                            <p><strong>第二步：</strong>填【现有均价（元/克）】→ 比如700元</p>
+                            <p><strong>第三步：</strong>填【本次买入重量（克）】→ 比如这次买10克</p>
+                            <p><strong>第四步：</strong>填【本次买入价（元/克）】→ 比如720元</p>
+                            <p><strong>第五步：</strong>点击【计算】</p>
+                        </div>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>📊 积存金 - 按仓位百分比</h3>
+                        <p><strong>适用场景：</strong>你不知道具体有多少克，只想估算一下。比如"假设我现在有100%的仓位，再买20%"。</p>
+                        <p><strong>说明：</strong>现有仓位固定算100%，新增的是相对比例。</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>📈 黄金基金</h3>
+                        <p>和积存金计算方式一样，只是把"克"换成"份"！</p>
+                        <p>基金是按"份"买的，比如1份基金1.5元，你买1000元，就能买到约666.67份。</p>
+                    </div>
+
+                    <div class="help-tip">
+                        <p>💡 <strong>小提示：</strong>所有输入框都可以填小数，更精确哦！</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="news-section">
+                <h2>每日资讯</h2>
+                <button class="refresh-btn" onclick="refreshNews()">🔄 刷新资讯</button>
+                <div class="news-list" id="news-list">
+                    <div class="news-item">
+                        <div class="news-title">📈 三大指数集体上涨，沪指涨1.5%收复3200点</div>
+                        <div class="news-desc">今日A股市场整体走强，沪指、深证成指、创业板指均出现明显上涨，两市成交额突破1.2万亿元。</div>
+                        <div class="news-time">2026-06-17 09:30</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">💰 黄金价格再创历史新高，突破780元/克</div>
+                        <div class="news-desc">受国际地缘政治局势影响，避险情绪升温，黄金价格持续上涨，今日最高触及785元/克。</div>
+                        <div class="news-time">2026-06-17 10:15</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">🏦 央行宣布降准0.5个百分点，释放长期资金约1万亿元</div>
+                        <div class="news-desc">为支持实体经济发展，中国人民银行决定下调金融机构存款准备金率，将于下周一正式实施。</div>
+                        <div class="news-time">2026-06-17 11:00</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">📊 新能源板块持续走强，多只个股涨停</div>
+                        <div class="news-desc">光伏、储能、新能源车等新能源板块今日表现亮眼，板块整体涨幅超4%。</div>
+                        <div class="news-time">2026-06-17 13:45</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">⚡ 半导体板块异动拉升，国产替代概念受关注</div>
+                        <div class="news-desc">受政策利好消息刺激，半导体板块午后拉升，芯片设计、设备制造等细分领域领涨。</div>
+                        <div class="news-time">2026-06-17 14:20</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-note">
+            我有匣中三尺锋，逢蛟龙处斩蛟龙
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
