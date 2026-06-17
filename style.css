@@ -9,7 +9,7 @@ body {
     min-height: 100vh;
     background-image: url("1ab203348206df1bd0d3810dedb31a73.png");
     background-size: cover;
-    background-position: center;
+    background-position: center left;
     background-attachment: fixed;
     background-repeat: no-repeat;
     color: #333;
@@ -23,7 +23,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.15);
     z-index: -1;
 }
 
@@ -57,11 +57,11 @@ header h1 {
 }
 
 .calculator-section {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.65);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(5px);
 }
 
 .tabs {
@@ -149,11 +149,11 @@ header h1 {
 }
 
 .input-section {
-    background: #faf9f5;
+    background: rgba(250, 249, 245, 0.8);
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 20px;
-    border: 1px solid #f0e6d2;
+    border: 1px solid rgba(240, 230, 210, 0.8);
 }
 
 .input-section h3 {
@@ -224,9 +224,9 @@ header h1 {
 .result-box {
     margin-top: 30px;
     padding: 25px;
-    background: linear-gradient(135deg, #fff9e6 0%, #f5f0e5 100%);
+    background: linear-gradient(135deg, rgba(255, 249, 230, 0.9) 0%, rgba(245, 240, 229, 0.9) 100%);
     border-radius: 15px;
-    border: 2px solid #f0e6d2;
+    border: 2px solid rgba(240, 230, 210, 0.9);
 }
 
 .result-box h3 {
