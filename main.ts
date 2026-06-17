@@ -1,56 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
-    refreshNews();
 });
-
-interface NewsItem {
-    title: string;
-    desc: string;
-    time: string;
-}
-
-async function refreshNews(): Promise<void> {
-    const newsList = document.getElementById('news-list');
-    if (!newsList) return;
-    
-    try {
-        newsList.innerHTML = '<div style="text-align: center; padding: 30px; color: #8b6914;">🔄 正在获取最新资讯...</div>';
-        
-        let apiUrl = '/api/news';
-        if (window.location.protocol === 'file:') {
-            apiUrl = 'http://localhost:3000/api/news';
-        }
-        
-        const response = await fetch(apiUrl);
-        const newsData: NewsItem[] = await response.json();
-        
-        newsList.innerHTML = newsData.map(news => `
-            <div class="news-item">
-                <div class="news-title">${news.title}</div>
-                <div class="news-desc">${news.desc}</div>
-                <div class="news-time">${news.time}</div>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('获取资讯失败:', error);
-        const today = new Date();
-        const dateStr = today.toISOString().split('T')[0];
-        const defaultNews = [
-            { title: "📈 三大指数集体上涨，沪指涨1.5%收复3200点", desc: "今日A股市场整体走强，沪指、深证成指、创业板指均出现明显上涨，两市成交额突破1.2万亿元。", time: `${dateStr} 09:30` },
-            { title: "💰 黄金价格再创历史新高，突破780元/克", desc: "受国际地缘政治局势影响，避险情绪升温，黄金价格持续上涨，今日最高触及785元/克。", time: `${dateStr} 10:15` },
-            { title: "🏦 央行宣布降准0.5个百分点，释放长期资金约1万亿元", desc: "为支持实体经济发展，中国人民银行决定下调金融机构存款准备金率，将于下周一正式实施。", time: `${dateStr} 11:00` },
-            { title: "📊 新能源板块持续走强，多只个股涨停", desc: "光伏、储能、新能源车等新能源板块今日表现亮眼，板块整体涨幅超4%。", time: `${dateStr} 13:45` },
-            { title: "⚡ 半导体板块异动拉升，国产替代概念受关注", desc: "受政策利好消息刺激，半导体板块午后拉升，芯片设计、设备制造等细分领域领涨。", time: `${dateStr} 14:20` }
-        ];
-        newsList.innerHTML = defaultNews.map(news => `
-            <div class="news-item">
-                <div class="news-title">${news.title}</div>
-                <div class="news-desc">${news.desc}</div>
-                <div class="news-time">${news.time}</div>
-            </div>
-        `).join('');
-    }
-}
 
 function initTabs(): void {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -166,13 +116,17 @@ function displayDepositResult(weight: number, cost: number, avgPrice: number, is
     const priceEl = document.getElementById('new-avg-price');
 
     if (weightEl) {
-        weightEl.textContent = isPercent ? weight.toFixed(2) + '% (相对权重)' : weight.toFixed(4);
+        if (isPercent) {
+            weightEl.textContent = weight.toFixed(2) + '% 权重';
+        } else {
+            weightEl.textContent = weight.toFixed(4) + ' 克';
+        }
     }
     if (costEl) {
-        costEl.textContent = cost.toFixed(2);
+        costEl.textContent = '¥' + cost.toFixed(2);
     }
     if (priceEl) {
-        priceEl.textContent = avgPrice.toFixed(4);
+        priceEl.textContent = '¥' + avgPrice.toFixed(4);
     }
 }
 
@@ -222,12 +176,12 @@ function displayFundResult(weight: number, cost: number, avgPrice: number): void
     const priceEl = document.getElementById('fund-new-avg-price');
 
     if (weightEl) {
-        weightEl.textContent = weight.toFixed(4);
+        weightEl.textContent = weight.toFixed(4) + ' 份';
     }
     if (costEl) {
-        costEl.textContent = cost.toFixed(2);
+        costEl.textContent = '¥' + cost.toFixed(2);
     }
     if (priceEl) {
-        priceEl.textContent = avgPrice.toFixed(4);
+        priceEl.textContent = '¥' + avgPrice.toFixed(4);
     }
 }
